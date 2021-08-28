@@ -1,5 +1,5 @@
 # APIの叩き方
-### EsLintの導入
+### EsLintの導入(クローン版ではすでに導入済みなので必要ない)
 > Next.jsのヴァージョンが上がり、Next.js用のEsLintができたのでそれを導入する
 > next.js eslintで検索　”https://nextjs.org/docs/basic-features/eslint”
 ```
@@ -68,7 +68,7 @@ Thanks by.{' '}
 
 
 
-## パッケージを使わず自力でAPIを叩く記述方法
+## パッケージを使わず自力でAPIを叩く記述方法(ここから始める)
 ### index.jsxでローカルホストの起動
 ### indexの不要部分の削除
 ```js
@@ -109,7 +109,16 @@ const Home = (props) => {
 <!-- react-resはここから -->
 
 - 次にAPIの叩き方
-  - さらに
+- その下に
+```js
+const getPosts = useCallback(() =>{
+		
+	},[]);
+```
+> として、
+- さらに、非同期なのでasync, awaitをつけて、ブラウザが持っている非同期を叩くための関数fetchを使う
+- - async,awaitでfetchを使うとResponseオブジェクトが帰ってくる
+  
 ```js
 const getPosts = useCallback(async () => {
     const res = await fetch("https://jsonplaceholder.typicode.com/posts");
@@ -130,7 +139,7 @@ useEffect(() => {
 ```js
 const Home = (props) => {
   const [posts, setPosts] = useState([]);
-
+// useState([]);で[]空配列を忘れると最後のmapが回らずエラーとなる
   const getPosts = useCallback(async () => {
     const res = await fetch("https://jsonplaceholder.typicode.com/posts");
     const json = await res.json();
@@ -160,10 +169,12 @@ const getPosts = useCallback(async () => {
 </ol>
 ```
 > これで表示される。
+- return の上にconsole.log(posts);を記述すると、最初に空配列が入っているのが確認できる。
+- 
 ---
 - ここで、prettierを効かせる
   - setting.jsonに
-  ```
+  ```js
   "editor.formatOnSave": true
   ```
   を追加記述
@@ -193,8 +204,7 @@ const json = await res.json();
   const [posts, setPosts] = useState([]);
 ```
 > のpostsのステートに入れる。
-- これで、postsが空
-- 配列から、データが100件入った状態になる。
+- これで、postsが空配列から、データが100件入った状態になる。
 ---
 > postsが０より大きければ表示させる
 ```js
