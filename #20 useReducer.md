@@ -1,6 +1,6 @@
 ## useReducer の使い方
 
-1. useState をまとめる
+- 1. useState をまとめる
 
 ```js
 const [posts, setPosts] = useState([]);
@@ -8,7 +8,10 @@ const [loading, setLoading] = useState(true);
 const [error, setError] = useState(null);
 ```
 
-> この部分を簡略化して書く 2. useReducer の使い方を学ぶ
+> この部分を簡略化して書く
+
+- 2. useReducer の使い方を学ぶ
+
 > useReducer は考え方が大切、Redux にもよく使われるのでその予習として
 
 ---
@@ -38,29 +41,29 @@ console.log("foo");
 - その下に
   ```js
   const [state, setState] = useState({
-    data: [],
-    loading: true,
-    error: null,
+  	data: [],
+  	loading: true,
+  	error: null,
   });
   ```
   > として、setState を使って、オブジェクトの値を書き換える
 
 ```js
 if (loading) {
-  return <div>ローディング中</div>;
+	return <div>ローディング中</div>;
 }
 if (error) {
-  return <div>{error.message}</div>;
+	return <div>{error.message}</div>;
 }
 if (posts.length === 0) {
-  return <div>データは空です</div>;
+	return <div>データは空です</div>;
 }
 return (
-  <ol>
-    {posts.map((post) => {
-      return <li key={post.id}>{post.title}</li>;
-    })}
-  </ol>
+	<ol>
+		{posts.map((post) => {
+			return <li key={post.id}>{post.title}</li>;
+		})}
+	</ol>
 );
 ```
 
@@ -68,27 +71,28 @@ return (
 
 ```js
 if (state.loading) {
-  return <div>ローディング中</div>;
+	return <div>ローディング中</div>;
 }
 if (state.error) {
-  return <div>{state.error.message}</div>;
+	return <div>{state.error.message}</div>;
 }
 if (state.data.length === 0) {
-  return <div>データは空です</div>;
+	return <div>データは空です</div>;
 }
 
 return (
-  <ol>
-    {state.data.map((post) => {
-      return <li key={post.id}>{post.title}</li>;
-    })}
-  </ol>
+	<ol>
+		{state.data.map((post) => {
+			return <li key={post.id}>{post.title}</li>;
+		})}
+	</ol>
 );
 ```
 
 > と書き換える。このままでは、表示はエラーとなるので
 
 ```js
+{
 const json = await res.json();
       // setPosts(json);
     } catch (error) {
@@ -101,12 +105,12 @@ const json = await res.json();
 
 ```js
 const json = await res.json();
-setState(prevState => {
-  return {
-    data: json,
-    loading: false,
-    error: null,
-  };
+setState((prevState) => {
+	return {
+		data: json,
+		loading: false,
+		error: null,
+	};
 });
 // setPosts(json);
 ```
@@ -125,33 +129,56 @@ error: null,
 
 ```js
 setState((prevState) => {
-  return {
-    ...prevState,
-    data: json,
-    loading: false,
-    // error: null,
-  };
+	return {
+		...prevState,
+		data: json,
+		loading: false,
+		// error: null,
+	};
 });
 ```
 
-> とする。エラー部分の記述についても
+> とする
+
+- // error: null, // setPosts(json);の部分は削除
+  > エラー部分の記述についても
 
 ```js
 catch (error) {
   setState((prevState) => {
     return {
       ...prevState,
-      loading: false,
       error: error,
     };
+    // setError(error);
   });
   // setError(error);
 }
 ```
 
+- // setError(error);// setError(error);は削除
+- ローディングを false にする
+
+```js
+setState((prevState) => {
+return {
+	...prevState,
+	data: json,
+	loading: false,
+}
+```
+> エラーメッセージの表示
+```js
+if (state.error) {
+		return <div>{state.error.message}</div>;
+	}
+```
+> とする。
+
+
 > エラーを発生させて確認する。
 
-- キーと同じ値の場合省略できる
+- キーと同じ値の場合省略できるので
   - error: error,は
 
 ```js
@@ -162,7 +189,7 @@ error,
 
 ---
 
-2. useReducer の使い方を学ぶ
+- 3. useReducer の使い方を学ぶ
 
 - React 公式サイトの中の useReducer を参照
   > (state, action) => newState のところが大切。
@@ -170,40 +197,60 @@ error,
   - これを reducer というので、その使い方を useReducer という
 - const [state, dispatch] = useReducer(reducer, initialArg, init);第１引数 reducer,第２引数 initialArg,第３引数は今回は使用しない。
 
-- export const Posts = () => {　の上に
+```js
+export const Posts = () => {　の上に
+```
+```js
+const [state, setState] = useState({
+	data: [],
+	loading: true,
+	error: null,
+});
+```
+> から
+```js
+{
+	data: [],
+	loading: true,
+	error: null,
+}
+```
+> の部分をコピーして
+- const initialState= を記述して,その次に貼り付け
 
 ```js
 const initialState = {
-  data: [],
-  loading: true,
-  error: null,
+	data: [],
+	loading: true,
+	error: null,
 };
 ```
 
-と記述して、その下に
+> と記述して、その下に
 
 ```js
 const reducer = (state, action) => {
-  switch (action.type) {
-    case "end":
-      return {
-        ...state,
-        data: action.data,
-        loading: false,
-      };
-    case "error":
-      return {
-        ...state,
-        loading: false,
-        error: action.error,
-      };
-    default:
-      throw new Error("no such action type!");
-  }
+	switch (action.type) {
+		case "end":
+			return {
+				...state,
+				data: action.data,
+				loading: false,
+			};
+		case "error":
+			return {
+				...state,
+				loading: false,
+				error: action.error,
+			};
+		default:
+			throw new Error("no such action type!");
+	}
 };
 ```
 
 と記述
+
 - import に
 
 ```js
@@ -211,12 +258,13 @@ import { useCallback, useEffect, useReducer } from "react";
 ```
 
 - useReducer を追加
-- exportのしたの
+- export の下の
+
 ```js
 const [state, setState] = useState({
-  data: [],
-  loading: true,
-  error: null,
+	data: [],
+	loading: true,
+	error: null,
 });
 ```
 
@@ -224,9 +272,9 @@ const [state, setState] = useState({
 
 ```js
 const [state, setState] = useReducer();
-
 ```
-- として、第 1 引数にreducer、第 2 引数にinitialStateを入れる
+
+- として、第 1 引数に reducer、第 2 引数に initialState を入れる
 
 ```js
 const [state, setState] = useReducer(reducer, initialState);
@@ -265,7 +313,7 @@ const json = await res.json();
 - 次に
 
 ```js
-dispatch({ type: "end", data: json });
+dispatch({typ: "end", data: json});
 ```
 
 > を const json = await res.json();の次に記述するとデータが表示される
@@ -282,7 +330,7 @@ const json = await res.json();
 ```
 
 - と記述するとエラーの際は表示される
-
+> コメントアウト部分を削除
 ---
 
 ### initialState 考え方
@@ -330,7 +378,7 @@ case "end":{
   }}
 ```
 
-> action の中に array としてデータが 100 県入っているのが確認できる。
+> action の中に array としてデータが 100 件入っているのが確認できる。
 
 - ...state,は
 
@@ -346,15 +394,19 @@ error: null,
   default:
   throw new Error("no such action type!")
 ```
+
 は
+
 ```js
 default:{
       throw new Error("no such action type!")
     }
 ```
+
 > とオブジェクトにしても良い。
+
 ---
+
 コミットとプッシュ
-- ⚡️ useReducerを使いました。
 
-
+- ⚡️ useReducer を使いました。
