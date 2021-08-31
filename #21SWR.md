@@ -18,7 +18,41 @@ export const Posts = () => {
 const { data, error } = useSWR("https://jsonplaceholder.typicode.com/posts")
   console.log({ data, error });
 ```
-- として、data,error に何が入っているかを確認
+---
+> SWRのバージョンが更新され、今までの方法では、動かなくなっている。
+- 対策1
+- - useSWRの第２引数に入れる
+```js
+const fetcher = (...args) => fetch(...args).then(res => res.json())
+```
+- 対策2
+  - 全部のuseSWRに設定するのは面倒なので、SWRConfigでデフォルトで設定する。
+```js
+import { SWRConfig } from 'swr'
+
+const MyApp = ({ Component, pageProps }) => {
+  return (
+    <SWRConfig 
+      value={{
+        fetcher: (resource, init) => fetch(resource, init).then(res => res.json())
+      }}
+    >
+      <Head>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </SWRConfig>
+  );
+};
+
+export default MyApp;
+```
+> こんな感じ！
+---
+
+- これで、console.log({ data, error });として、data,error に何が入っているかを確認
 > 次をコメントアウト
 ```js
 // const [state, dispatch] = useReducer(reducer, initialState);
@@ -185,7 +219,7 @@ const { data, error } = useSWR("https://jsonplaceholder.typicode.com/postsaaa", 
 ```
 > とエラーメッセージが表示される
 ---
-### データがからの時の表示を確認する方法
+### データが空の時の表示を確認する方法
 - APIのIDに100以上のものを確認させる
 ```js
 useSWR("https://jsonplaceholder.typicode.com/posts?id=101", fetcher);
