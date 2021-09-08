@@ -2,25 +2,30 @@
 - "editor.quickSuggestions": { "strings": true }の設定
 #### Tailwind CSS の統合
 
-> Tailwind CSS の検索 https://tailwindcss.com/の実行
-
+> Tailwind CSS の検索 https://tailwindcss.com/
+> の実行
 - get started → installation → next.js
 - Install Tailwind via npm から
 - - tailwindcss@latest postcss@latest autoprefixer@latest のコピー
 - - ターミナルに yarn add -D tailwindcss@latest postcss@latest autoprefixer@latest 　と入力
-    > これが完了すれば　 Create your configuration files の npx tailwindcss init -p 　をコピー
+    > これが完了すれば　 
+    >Create your configuration files の 
+    >npx tailwindcss init -p 　をコピー
 - ターミナルに npx tailwindcss init -p を入力
   > これで tailwind.config.js と postcss.config.js が作られている
 - Configure Tailwind to remove unused styles in production から
   > purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],の部分をコピーしえて
-- tailwind.config.js に貼り付け　 pureg: [],は削除する
-- さらに不要な部分を削除して purge: ['./src/**/*.{js,ts,jsx,tsx}'], とする
-  > Import Tailwind directly in your JS 　から　 import 'tailwindcss/tailwind.css'を pages/\_app.jsx にインポートする必要がある
-- \_app.jsx の既存の CSS はいらないので一旦コメントアウト　// import "src/styles/globals.css";
+- tailwind.config.js のpureg: [],は削除して、その部分に貼り付けて 
+- - pagesをsrcに変更して 
+- - , './components/**/*.{js,ts,jsx,tsx}'の部分も削除して、
+- - purge: ['./src/**/*.{js,ts,jsx,tsx}'], とする
+  > Import Tailwind directly in your JS 　から　 import 'tailwindcss/tailwind.css'を pages/\_app.jsx の一番上に貼り付け
+- \_app.jsx の既存の CSS はいらないので一旦コメントアウト　
+- - // import "src/styles/globals.css";
   > ここで　 yarn dev Tailwind が効いている状態になっている
 - Tailwind には JIT モードというものがある
 - - tailwind.config.js に mode:"jit", と記述
-
+- - 再度yarn dev
 ```js
 module.exports = {
 	mode: "jit",
@@ -66,6 +71,7 @@ module.exports = {
 #### 既存のものと置き換えていく
 
 - styles フォルダ自体がいらないので削除
+- コメントアウトした、// import "../styles/globals.css";ところも削除
 
 #### Layout のセットアップ
 
