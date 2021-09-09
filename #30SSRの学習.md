@@ -119,6 +119,28 @@ return (
 > とするとブラウザの上部に名前が表示される。
 > これで、一応個人情報が最初からソースコードに反映されるようになったが、全てのコードにこれを記載していくのは大変なので、これを解決するために SWRConfig を使う。
 
+- user/[id]/index.jsx の
+
+```js
+<div>
+	<Header />
+	<UserComponent />
+</div>
+```
+
+> を
+
+```js
+<SWRConfig value = {{ fallback }}>
+
+	<Header />
+	<UserComponent />
+</SWRConfig>
+```
+> と変更
+
+
+
 - デフォルトで最初の値を決めることができる。
 - 書き換え
 
@@ -138,6 +160,21 @@ export const getServerSideProps = async (ctx) => {
 	};
 };
 ```
+> として、最後にconstでpropsをfallbackに渡す
+- const { fallback } = props;
+```js
+const UsersId = (props) => {
+	const { fallback } = props;
+	return (
+		<SWRConfig value={{ fallback }}>
+			<Header />
+			<UserComponent />
+		</SWRConfig>
+	);
+};
+export default UsersId;
+```
+
 
 > として、ソースコードを確認すると個人情報が取得できている。
 
@@ -147,8 +184,13 @@ export const getServerSideProps = async (ctx) => {
 const { data, error, isLoading } = useUser();
 console.log(data);
 ```
-> としてログを確認すると、最初のundefinedが消えて個人情報が取れている
-- ただし、SSRは表示までに負荷がかかり、遅くなるので、あまり多用するものではない。
+
+> としてログを確認すると、最初の undefined が消えて個人情報が取れている
+
+- ただし、SSR は表示までに負荷がかかり、遅くなるので、あまり多用するものではない。
+
 ---
+
 > コミット
--  ✨ ユーザー詳細ぺーじでSSRを実践
+
+- ✨ ユーザー詳細ぺーじで SSR を実践
