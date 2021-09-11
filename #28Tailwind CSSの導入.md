@@ -9,12 +9,12 @@
 - - tailwindcss@latest postcss@latest autoprefixer@latest のコピー
 - - ターミナルに yarn add -D tailwindcss@latest postcss@latest autoprefixer@latest 　と入力
     > これが完了すれば　 
-    >Create your configuration files の 
+    >Create your configuration files の  -
     >npx tailwindcss init -p 　をコピー
 - ターミナルに npx tailwindcss init -p を入力
   > これで tailwind.config.js と postcss.config.js が作られている
 - Configure Tailwind to remove unused styles in production から
-  > purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],の部分をコピーしえて
+  > purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],の部分をコピーして
 - tailwind.config.js のpureg: [],は削除して、その部分に貼り付けて 
 - - pagesをsrcに変更して 
 - - , './components/**/*.{js,ts,jsx,tsx}'の部分も削除して、
