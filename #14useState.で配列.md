@@ -1,12 +1,12 @@
 # #14
 ## useStateで配列を扱う
 - const [isShow, setIsShow] = useState(true);の次に
-```
+```js
   const [array,setArray ] = useState([]);
 ```
 を記述
 - inputタグの次に
-```
+```js
 <ul>
  {array.map(item=>{
    return(
@@ -22,14 +22,14 @@
 <button onClick={handleAdd}>追加</button>
 ```
 - setTextタグの次に
-```
+```js
 const handleAdd=useCallback(()=>{
   alert(123);
 },[]);
 ```
 - setStateの配列[1,2,3]を空配列に戻す
 - alert(123)を
-  setArray([1,2,3]);に変更して、追加ボタンをクリックすると配列1,2,3が表示される
+  setArray([1,2,3]);に変更して、追加ボタンをクリックするとアラート1,2,3が表示される
 - 追加ボタンを押すと配列が一つずつ増えるようにする
 ---
 * 一旦リファクタリング
@@ -81,7 +81,7 @@ if(prevArray.some((item)=>item===text)){
   return prevArray;
 }
 ```
-を追加する
+> を setArray((prevArray) の下に追加する
 ```js
 const newArray=[...prevArray,text];
   return newArray;
@@ -96,6 +96,8 @@ return [...prevArray,text];
 GitHubにプッシュしてVercelにデプロイ
 - リファクタリングは名前の変更部分と配列に関する部分の２つに分ける
 - まず名前の変更部分を選択して、選択した範囲をステージして、先にこの部分だけコミットする
+  
+  > "control + Z" でステージ範囲をコミット
 - - ♻️状態を変更するときにprevをつけて名前をわかりやすくした
 
 - 次に今回の配列に関する部分をコミットする
